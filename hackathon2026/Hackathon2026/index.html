@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaVote – AI Election</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="bg-orbit"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+
+    <header class="top-nav glass">
+      <div class="brand">
+        <div class="logo-mark">
+          <span class="logo-dot"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">NovaVote</span>
+          <span class="brand-sub">AI-secured</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="live-pill">
+          <span class="live-dot"></span>
+          <span>Live</span>
+        </div>
+        <button id="themeToggle" class="icon-button" aria-label="Theme">
+          <span class="icon-sun">☀</span>
+          <span class="icon-moon">☾</span>
+        </button>
+        <div class="user-chip">
+          <span class="user-dot"></span>
+          <span class="user-label">Citizen</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="left-panel">
+        <!-- Biometric Gate -->
+        <div class="panel glass panel-auth">
+          <div class="panel-header">
+            <span class="panel-label">Access</span>
+            <h2 class="panel-title">Biometric Gate</h2>
+          </div>
+          <div class="auth-grid">
+            <button id="fingerBtn" class="auth-tile finger" type="button">
+              <div class="auth-icon-wrapper">
+                <div class="fingerprint-ring"></div>
+                <div class="fingerprint-core"></div>
+              </div>
+              <span class="auth-title">Fingerprint</span>
+              <span class="auth-status" id="fingerStatus">Ready</span>
+            </button>
+            <button id="faceBtn" class="auth-tile face" type="button">
+              <div class="auth-icon-wrapper">
+                <div class="face-frame">
+                  <span class="face-eye left"></span>
+                  <span class="face-eye right"></span>
+                  <span class="face-mouth"></span>
+                </div>
+              </div>
+              <span class="auth-title">Face ID</span>
+              <span class="auth-status" id="faceStatus">Ready</span>
+            </button>
+          </div>
+          <div class="auth-footer">
+            <span class="auth-chip" id="authChip">Locked · verify to vote</span>
+          </div>
+          <div class="camera-shell hidden" id="cameraShell">
+            <video id="cameraStream" autoplay playsinline muted></video>
+            <div class="camera-overlay"><span>Scanning…</span></div>
+          </div>
+        </div>
+
+        <!-- Search + Ballot -->
+        <div class="panel glass panel-ballot">
+          <div class="panel-header panel-header-row">
+            <div>
+              <span class="panel-label">Ballot</span>
+              <h2 class="panel-title">Choose Vision</h2>
+            </div>
+            <div class="search-wrap">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input type="search" id="candidateSearch" class="search-input" placeholder="Search candidate…" autocomplete="off" />
+              <kbd class="search-kbd">/</kbd>
+            </div>
+          </div>
+
+          <div class="candidate-grid" id="candidateGrid">
+            <article class="candidate-card" data-id="aurora" data-name="Aurora Key" data-tags="neo civic quantum climate">
+              <div class="candidate-glow"></div>
+              <div class="candidate-avatar" aria-hidden="true">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%235ef0ff'/%3E%3Cstop offset='100%25' style='stop-color:%237cff6b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='38' fill='url(%23g)' opacity='0.9'/%3E%3Ccircle cx='40' cy='34' r='10' fill='%23fff' opacity='0.95'/%3E%3Cpath d='M28 58 Q40 48 52 58' stroke='%23fff' stroke-width='4' fill='none' opacity='0.9'/%3E%3C/svg%3E" alt="" />
+              </div>
+              <div class="candidate-header">
+                <span class="candidate-tag neo">Neo-Civic</span>
+                <span class="candidate-score" data-score="aurora">42%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Aurora Key</h3>
+                <p class="candidate-meta">Quantum · Climate AI</p>
+              </div>
+              <div class="candidate-trust">
+                <span class="trust-badge" title="Verified">✓</span>
+                <span>Verified</span>
+              </div>
+              <button type="button" class="vote-btn" data-id="aurora">Vote</button>
+            </article>
+
+            <article class="candidate-card" data-id="orion" data-name="Orion Vale" data-tags="civic grid security data">
+              <div class="candidate-glow alt"></div>
+              <div class="candidate-avatar" aria-hidden="true">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6fd8'/%3E%3Cstop offset='100%25' style='stop-color:%23ffd479'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='38' fill='url(%23g2)' opacity='0.9'/%3E%3Ccircle cx='40' cy='34' r='10' fill='%23fff' opacity='0.95'/%3E%3Cpath d='M28 58 Q40 48 52 58' stroke='%23fff' stroke-width='4' fill='none' opacity='0.9'/%3E%3C/svg%3E" alt="" />
+              </div>
+              <div class="candidate-header">
+                <span class="candidate-tag civic">Civic Grid</span>
+                <span class="candidate-score" data-score="orion">36%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Orion Vale</h3>
+                <p class="candidate-meta">Security · Data rights</p>
+              </div>
+              <div class="candidate-trust">
+                <span class="trust-badge" title="Verified">✓</span>
+                <span>Verified</span>
+              </div>
+              <button type="button" class="vote-btn" data-id="orion">Vote</button>
+            </article>
+
+            <article class="candidate-card" data-id="lyra" data-name="Lyra Sun" data-tags="open collective gov labs">
+              <div class="candidate-glow accent"></div>
+              <div class="candidate-avatar" aria-hidden="true">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%237cff6b'/%3E%3Cstop offset='100%25' style='stop-color:%235ef0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='38' fill='url(%23g3)' opacity='0.9'/%3E%3Ccircle cx='40' cy='34' r='10' fill='%23fff' opacity='0.95'/%3E%3Cpath d='M28 58 Q40 48 52 58' stroke='%23fff' stroke-width='4' fill='none' opacity='0.9'/%3E%3C/svg%3E" alt="" />
+              </div>
+              <div class="candidate-header">
+                <span class="candidate-tag open">Open Collective</span>
+                <span class="candidate-score" data-score="lyra">22%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Lyra Sun</h3>
+                <p class="candidate-meta">Open gov · Civic labs</p>
+              </div>
+              <div class="candidate-trust">
+                <span class="trust-badge" title="Verified">✓</span>
+                <span>Verified</span>
+              </div>
+              <button type="button" class="vote-btn" data-id="lyra">Vote</button>
+            </article>
+
+            <article class="candidate-card" data-id="nova" data-name="Nova Reed" data-tags="fusion tech innovation">
+              <div class="candidate-glow accent"></div>
+              <div class="candidate-avatar" aria-hidden="true">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23a78bfa'/%3E%3Cstop offset='100%25' style='stop-color:%235ef0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='38' fill='url(%23g4)' opacity='0.9'/%3E%3Ccircle cx='40' cy='34' r='10' fill='%23fff' opacity='0.95'/%3E%3Cpath d='M28 58 Q40 48 52 58' stroke='%23fff' stroke-width='4' fill='none' opacity='0.9'/%3E%3C/svg%3E" alt="" />
+              </div>
+              <div class="candidate-header">
+                <span class="candidate-tag neo">Fusion Tech</span>
+                <span class="candidate-score" data-score="nova">18%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Nova Reed</h3>
+                <p class="candidate-meta">Innovation · Digital infra</p>
+              </div>
+              <div class="candidate-trust">
+                <span class="trust-badge" title="Verified">✓</span>
+                <span>Verified</span>
+              </div>
+              <button type="button" class="vote-btn" data-id="nova">Vote</button>
+            </article>
+          </div>
+
+          <div class="search-empty hidden" id="searchEmpty">
+            <span class="search-empty-icon">⌕</span>
+            <p>No candidate matches "<span id="searchEmptyQuery"></span>"</p>
+          </div>
+
+          <div class="ballot-footer">
+            <span id="voteStatus" class="vote-status">Secure channel idle</span>
+            <span class="votes-secured" id="votesSecured">0 secured</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="right-panel">
+        <div class="panel glass panel-results">
+          <div class="panel-header">
+            <span class="panel-label">Live</span>
+            <h2 class="panel-title">Result Deck</h2>
+          </div>
+          <div class="results-top">
+            <div class="metric-tile">
+              <span class="metric-label">Turnout</span>
+              <div class="metric-value"><span id="turnoutValue">0.0%</span></div>
+              <div class="metric-bar"><div class="metric-fill" id="turnoutBar"></div></div>
+            </div>
+            <div class="metric-tile">
+              <span class="metric-label">Latency</span>
+              <div class="metric-value"><span id="latencyValue">12 ms</span></div>
+              <div class="metric-bar soft"><div class="metric-fill soft" id="latencyBar"></div></div>
+            </div>
+          </div>
+          <div class="results-bars" id="resultsBars">
+            <!-- Filled by JS or keep static rows -->
+            <div class="result-row" data-id="aurora">
+              <div class="result-label">
+                <span class="pill pill-aurora"></span>
+                <span>Aurora</span>
+              </div>
+              <div class="result-track"><div class="result-fill aurora"></div></div>
+              <span class="result-value" data-score="aurora">0%</span>
+            </div>
+            <div class="result-row" data-id="orion">
+              <div class="result-label">
+                <span class="pill pill-orion"></span>
+                <span>Orion</span>
+              </div>
+              <div class="result-track"><div class="result-fill orion"></div></div>
+              <span class="result-value" data-score="orion">0%</span>
+            </div>
+            <div class="result-row" data-id="lyra">
+              <div class="result-label">
+                <span class="pill pill-lyra"></span>
+                <span>Lyra</span>
+              </div>
+              <div class="result-track"><div class="result-fill lyra"></div></div>
+              <span class="result-value" data-score="lyra">0%</span>
+            </div>
+            <div class="result-row" data-id="nova">
+              <div class="result-label">
+                <span class="pill pill-nova"></span>
+                <span>Nova</span>
+              </div>
+              <div class="result-track"><div class="result-fill nova"></div></div>
+              <span class="result-value" data-score="nova">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel glass panel-activity">
+          <div class="panel-header">
+            <span class="panel-label">Stream</span>
+            <h2 class="panel-title">Signal Feed</h2>
+          </div>
+          <div class="activity-feed" id="activityFeed"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop hidden" id="confirmModal">
+      <div class="modal glass">
+        <h3 class="modal-title">Lock vote?</h3>
+        <p class="modal-text">Final on this device.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn-outline" id="cancelVote">Cancel</button>
+          <button type="button" class="btn-primary" id="confirmVote">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NovaVote – AI Election Interface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css.css" />
+    <!-- Futuristic font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="bg-orbit"></div>
+    <div class="bg-noise"></div>
+
+    <header class="top-nav glass">
+      <div class="brand">
+        <div class="logo-mark">
+          <span class="logo-dot"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">NovaVote</span>
+          <span class="brand-sub">AI-secured elections</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-button" aria-label="Toggle theme">
+          <span class="icon-sun"></span>
+          <span class="icon-moon"></span>
+        </button>
+        <div class="user-chip">
+          <span class="user-dot"></span>
+          <span class="user-label">Citizen-01</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="left-panel">
+        <!-- Biometric Gate -->
+        <div class="panel glass panel-auth">
+          <div class="panel-header">
+            <span class="panel-label">Access</span>
+            <h2 class="panel-title">Biometric Gate</h2>
+          </div>
+
+          <div class="auth-grid">
+            <button id="fingerBtn" class="auth-tile finger">
+              <div class="auth-icon-wrapper">
+                <div class="fingerprint-ring"></div>
+                <div class="fingerprint-core"></div>
+              </div>
+              <span class="auth-title">Fingerprint</span>
+              <span class="auth-status" id="fingerStatus">Ready</span>
+            </button>
+
+            <button id="faceBtn" class="auth-tile face">
+              <div class="auth-icon-wrapper">
+                <div class="face-frame">
+                  <span class="face-eye left"></span>
+                  <span class="face-eye right"></span>
+                  <span class="face-mouth"></span>
+                </div>
+              </div>
+              <span class="auth-title">Face ID</span>
+              <span class="auth-status" id="faceStatus">Ready</span>
+            </button>
+          </div>
+
+          <div class="auth-footer">
+            <span class="auth-chip" id="authChip">
+              Locked · verify to vote
+            </span>
+          </div>
+
+          <!-- Optional camera preview for face auth -->
+          <div class="camera-shell hidden" id="cameraShell">
+            <video id="cameraStream" autoplay playsinline></video>
+            <div class="camera-overlay">
+              <span>Scanning…</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ballot -->
+        <div class="panel glass panel-ballot">
+          <div class="panel-header">
+            <span class="panel-label">Ballot</span>
+            <h2 class="panel-title">Choose Vision</h2>
+          </div>
+
+          <div class="candidate-grid" id="candidateGrid">
+            <!-- Cards are static in HTML for clarity, JS just wires events -->
+            <article class="candidate-card" data-id="aurora">
+              <div class="candidate-glow"></div>
+              <div class="candidate-header">
+                <span class="candidate-tag neo">Neo‑Civic</span>
+                <span class="candidate-score" data-score="aurora">42%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Aurora Key</h3>
+                <p class="candidate-meta">Quantum policy • Climate AI</p>
+              </div>
+              <button class="vote-btn" data-id="aurora">Vote</button>
+            </article>
+
+            <article class="candidate-card" data-id="orion">
+              <div class="candidate-glow alt"></div>
+              <div class="candidate-header">
+                <span class="candidate-tag civic">Civic Grid</span>
+                <span class="candidate-score" data-score="orion">36%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Orion Vale</h3>
+                <p class="candidate-meta">Security mesh • Data rights</p>
+              </div>
+              <button class="vote-btn" data-id="orion">Vote</button>
+            </article>
+
+            <article class="candidate-card" data-id="lyra">
+              <div class="candidate-glow accent"></div>
+              <div class="candidate-header">
+                <span class="candidate-tag open">Open Collective</span>
+                <span class="candidate-score" data-score="lyra">22%</span>
+              </div>
+              <div class="candidate-main">
+                <h3 class="candidate-name">Lyra Sun</h3>
+                <p class="candidate-meta">Open gov • Civic labs</p>
+              </div>
+              <button class="vote-btn" data-id="lyra">Vote</button>
+            </article>
+          </div>
+
+          <div class="ballot-footer">
+            <span id="voteStatus" class="vote-status">
+              Secure channel idle
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="right-panel">
+        <!-- Live Results -->
+        <div class="panel glass panel-results">
+          <div class="panel-header">
+            <span class="panel-label">Live</span>
+            <h2 class="panel-title">AI Result Deck</h2>
+          </div>
+
+          <div class="results-top">
+            <div class="metric-tile">
+              <span class="metric-label">Turnout</span>
+              <div class="metric-value">
+                <span id="turnoutValue">0.0%</span>
+              </div>
+              <div class="metric-bar">
+                <div class="metric-fill" id="turnoutBar"></div>
+              </div>
+            </div>
+
+            <div class="metric-tile">
+              <span class="metric-label">Latency</span>
+              <div class="metric-value">
+                <span id="latencyValue">12 ms</span>
+              </div>
+              <div class="metric-bar soft">
+                <div class="metric-fill soft" id="latencyBar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-bars" id="resultsBars">
+            <div class="result-row" data-id="aurora">
+              <div class="result-label">
+                <span class="pill pill-aurora"></span>
+                <span>Aurora</span>
+              </div>
+              <div class="result-track">
+                <div class="result-fill aurora"></div>
+              </div>
+              <span class="result-value" data-score="aurora">0%</span>
+            </div>
+
+            <div class="result-row" data-id="orion">
+              <div class="result-label">
+                <span class="pill pill-orion"></span>
+                <span>Orion</span>
+              </div>
+              <div class="result-track">
+                <div class="result-fill orion"></div>
+              </div>
+              <span class="result-value" data-score="orion">0%</span>
+            </div>
+
+            <div class="result-row" data-id="lyra">
+              <div class="result-label">
+                <span class="pill pill-lyra"></span>
+                <span>Lyra</span>
+              </div>
+              <div class="result-track">
+                <div class="result-fill lyra"></div>
+              </div>
+              <span class="result-value" data-score="lyra">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Stream -->
+        <div class="panel glass panel-activity">
+          <div class="panel-header">
+            <span class="panel-label">Stream</span>
+            <h2 class="panel-title">Signal Feed</h2>
+          </div>
+          <div class="activity-feed" id="activityFeed">
+            <!-- JS will push compact log items here -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Subtle modal for vote confirmation -->
+    <div class="modal-backdrop hidden" id="confirmModal">
+      <div class="modal glass">
+        <h3 class="modal-title">Lock in your vote?</h3>
+        <p class="modal-text">
+          This ballot is final on this device.
+        </p>
+        <div class="modal-actions">
+          <button class="btn-outline" id="cancelVote">Cancel</button>
+          <button class="btn-primary" id="confirmVote">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
